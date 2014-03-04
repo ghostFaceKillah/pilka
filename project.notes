@@ -1,4 +1,55 @@
 jeden stan zajmuje 12kb;
 
+main loop draft;
 
-programme flow:
+player1 = new HumanPlayer();
+player2 = new ComputerPlayer();
+vector<pair<string,state>> choices;
+whose_turn = 1;
+int move;
+
+while (!gra_skonczona) {
+  choices = calculatePossibleChoices(game_state);
+  if (is_empty(choices)) {
+    gra_skonczona = 1;
+  } else {
+    if (whose_turn == 1) {
+      move = player1.decide(choices);
+    } else {
+      move = player2.decide(choices);
+    }
+    game_ state = applyMove(game_state, choices[move]);
+    gra_skonczona = strzelil_bramke(game_state);
+  }
+  // koniec gry - rozlicz algorytmy itd
+}
+
+potrzebna jest funkcja:
+isPossible(int move, state) :: move -> state -> (yes | nonfinal | no)
+{ 
+  if (existsLine(move,state)) { return no }
+  else {
+    if exists.dot(move, state) 
+      {return nonfinal}
+    else 
+     { yes }
+  }
+}
+
+applyMove :: move -> state -> state
+
+calculatePossibleChoices :: string s -> state -> vector<pair<string,state>> {
+  vector<pair<string,state>> resu;
+  for (i in 0:7) {
+    possible = isPossible(move, state)
+    if (possible == yes) {
+      resu.push(pair<s+string(i), applyMove(i, state)>;
+    } else if (possible == nonfinal) {
+      vector<pair<string,state>> small_resu;
+      small_resu = calculatePossibleChoices(s+string(i), applyMove(i,state));
+      resu.append(small_resu);
+    };
+  };
+}
+       
+
