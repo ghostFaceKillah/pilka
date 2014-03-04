@@ -12,7 +12,7 @@ function drawDot(ctx, color, dot) {
   }
   if (color == "red") {
     ctx.fillStyle = "rgb(200,0,0)"; 
-    ctx.fillRect(dot.x,dot.y,1,1);
+    ctx.fillRect(dot.x-1,dot.y-1,6,6);
   }
 
   ctx.fillRect(dot.x,dot.y,4,4);

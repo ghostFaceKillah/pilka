@@ -28,6 +28,7 @@ $(function() {
     horizontal = parseArray(A, 32, 42);
     diags = parseArray(A, 44, 55);
     adiags = parseArray(A, 57, 68);
+    current_dot = {};
     
     // create dots for drawing
     dots = [];
@@ -35,7 +36,7 @@ $(function() {
     for (var i=0; i<kropki.length; i++) {
       for (var j=0; j<kropki[i].length; j++) {
 	a = {};
-	a.y = (kropki.length-i-1)*scale + scale;
+	a.y = i*scale + scale;
 	a.x = j*scale + scale - 2;
 	if (kropki[i][j] == 1) {
 	  dots.push(a);
@@ -44,6 +45,8 @@ $(function() {
 	};
       };
     };
+    current_dot.x = parseInt(A[3])*scale + scale - 2;
+    current_dot.y = parseInt(A[1])*scale + scale;
 
     // create vertical lines for drawing
     v_lines = [];
@@ -52,9 +55,9 @@ $(function() {
 	if (vertical[i][j] == 1) {
 	  line = {};
 	  line.from_x = j*scale + scale;
-	  line.from_y = (vertical.length-i-1)*scale + scale;
+	  line.from_y = i*scale + scale;
 	  line.to_x = j*scale + scale;
-	  line.to_y = (vertical.length-i)*scale + scale;
+	  line.to_y = (i+1)*scale + scale;
 	  v_lines.push(line);
 	};
       };
@@ -67,9 +70,9 @@ $(function() {
 	if (horizontal[i][j] == 1) {
 	  line = {};
 	  line.from_x = (j-1)*scale + scale;
-	  line.from_y = (horizontal.length-i)*scale + scale + 2;
+	  line.from_y = (i+1)*scale + scale + 2;
 	  line.to_x = j*scale + scale;
-	  line.to_y = (horizontal.length-i)*scale + scale + 2;
+	  line.to_y = (i+1)*scale + scale + 2;
 	  h_lines.push(line);
 	};
       };
@@ -82,9 +85,9 @@ $(function() {
 	if (diags[i][j] == 1) {
 	  line = {};
 	  line.from_x = j*scale + scale;
-	  line.from_y = (diags.length-i-1)*scale + scale + 2;
+	  line.from_y = i*scale + scale + 2;
 	  line.to_x = (j-1)*scale + scale;
-	  line.to_y = (diags.length-i)*scale + scale + 2;
+	  line.to_y = (i+1)*scale + scale + 2;
 	  diag_lines.push(line);
 	};
       };
@@ -97,9 +100,9 @@ $(function() {
 	if (adiags[i][j] == 1) {
 	  line = {};
 	  line.from_x = (j-1)*scale + scale;
-	  line.from_y = (adiags.length-i-1)*scale + scale + 2;
+	  line.from_y = i*scale + scale + 2;
 	  line.to_x = j*scale + scale;
-	  line.to_y = (adiags.length-i)*scale + scale + 2;
+	  line.to_y = (i+1)*scale + scale + 2;
 	  adiag_lines.push(line);
 	};
       };
@@ -129,13 +132,15 @@ $(function() {
     for (i in adiag_lines) {
       drawLine(ctx, adiag_lines[i]);
     }
+    drawDot(ctx, "red", current_dot);
     drawFrame(ctx);
   };
 
-
-  $.get('test.state', function(data) {
-    parse(data);
-    resolve();
-  } );
-  // var timer = setInterval(function(){ resolve()} , 10) ;
+  function temp() {
+    $.get('test.state', function(data) {
+      parse(data);
+      resolve();
+    } );
+  };
+  var timer = setInterval(function(){ temp()} , 100) ;
 });
