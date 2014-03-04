@@ -3,6 +3,9 @@
 
 void state::init() {
   int k,l;
+  int current_x, current_y;
+  current_x = 0;
+  current_y = 0;
 
   k = 13; l = 9;
   for (int i = 0; i<k; i++) {
@@ -43,6 +46,11 @@ void state::init() {
 
 void state::write() {
   int k,l;
+  
+  cout << "current_x" << endl;
+  cout << current_x << endl;
+  cout << "current_y" << endl;
+  cout << current_y << endl;
 
   cout << "kropki" << endl;
   k = 13; l = 9;
@@ -91,6 +99,11 @@ void state::writeToFile(string s) {
   ofstream myfile;
   myfile.open (s);
 
+  myfile << "current_x" << endl;
+  myfile << current_x << endl;
+  myfile << "current_y" << endl;
+  myfile << current_y << endl;
+
   myfile << "kropki" << endl;
   k = 13; l = 9;
   for (int i = 0; i<k; i++) {
@@ -137,6 +150,12 @@ void state::loadFromFile(string s) {
   int k,l;
   string drop;
   ifstream myfile (s);
+
+  // x, y 
+  myfile >> drop;
+  myfile >> current_x;
+  myfile >> drop;
+  myfile >> current_y;
 
   // kropki
   myfile >> drop;

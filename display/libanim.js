@@ -5,6 +5,10 @@ function clearCanvas(ctx) {
   ctx.restore();
 };
 
+function drawDot(ctx, dot) {
+  ctx.fillRect(dot.x,dot.y,3,3);
+};
+
 function rectangle(ctx, center_x, center_y, sizea, sizeb  ) {
   ctx.beginPath();
   ctx.moveTo(center_x - sizea/2, center_y + sizeb/2);

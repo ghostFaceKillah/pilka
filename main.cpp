@@ -7,7 +7,6 @@ int main(int argc, char *argv[]) {
 
   state game;
   game.loadFromFile("init_pos");
-  game.init();
-  game.writeToFile("test.state");
+  game.writeToFile("display/test.state");
 
 };
