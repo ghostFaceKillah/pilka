@@ -140,7 +140,6 @@ state applyStickAndDot(int move, state g_st) {
 };
 
 
-
 int main(int argc, char *argv[]) {
   cout << "Gra w pilkarzyki." << endl;
 

@@ -1,7 +1,6 @@
 jeden stan zajmuje 12kb;
 
 main loop draft;
-
 player1 = new HumanPlayer();
 player2 = new ComputerPlayer();
 vector<pair<string,state>> choices;
@@ -25,18 +24,10 @@ while (!gra_skonczona) {
 }
 
 potrzebna jest funkcja:
-isPossible(int move, state) :: move -> state -> (yes | nonfinal | no)
-{ 
-  if (existsLine(move,state)) { return no }
-  else {
-    if exists.dot(move, state) 
-      {return nonfinal}
-    else 
-     { yes }
-  }
-}
 
-applyMove :: move -> state -> state
+applyMove :: string "of move" -> state -> state
+   stosujaca applyStickAndDot
+"" trzeba zrobic dwie wersje - jedna funkcyjnie druga imperatywnie ""
 
 calculatePossibleChoices :: string s -> state -> vector<pair<string,state>> {
   vector<pair<string,state>> resu;
@@ -51,5 +42,3 @@ calculatePossibleChoices :: string s -> state -> vector<pair<string,state>> {
     };
   };
 }
-       
-
