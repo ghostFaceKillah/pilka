@@ -1,0 +1,4 @@
+    $('#canvas')[0].height/2
+      frame(ctx, $('#canvas')[0].width/2, $('#canvas')[0].height/2,  //draw a frame
+          $('#canvas')[0].width, $('#canvas')[0].height);
+  };

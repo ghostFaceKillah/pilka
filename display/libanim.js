@@ -5,8 +5,32 @@ function clearCanvas(ctx) {
   ctx.restore();
 };
 
-function drawDot(ctx, dot) {
-  ctx.fillRect(dot.x,dot.y,3,3);
+function drawDot(ctx, color, dot) {
+  if (color == "bleak") {
+    ctx.fillStyle = "rgb(150,150,150)"; 
+    ctx.fillRect(dot.x,dot.y,1,1);
+  }
+  if (color == "red") {
+    ctx.fillStyle = "rgb(200,0,0)"; 
+    ctx.fillRect(dot.x,dot.y,1,1);
+  }
+
+  ctx.fillRect(dot.x,dot.y,4,4);
+  ctx.fillStyle = "rgb(0,0,0)"; 
+};
+
+function drawLine(ctx, line) {
+  ctx.beginPath();
+  ctx.moveTo(line.from_x, line.from_y);
+  ctx.lineTo(line.to_x, line.to_y);
+  ctx.closePath();
+  ctx.stroke();
+};
+
+function drawFrame(ctx){
+    $('#canvas')[0].height/2
+      frame(ctx, $('#canvas')[0].width/2, $('#canvas')[0].height/2,  //draw a frame
+          $('#canvas')[0].width, $('#canvas')[0].height);
 };
 
 function rectangle(ctx, center_x, center_y, sizea, sizeb  ) {
