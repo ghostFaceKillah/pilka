@@ -1,5 +1,0 @@
-enum option {
-  yes = 0,
-  nonfinal = 1,
-  no = 2
-};
