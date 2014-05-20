@@ -118,6 +118,58 @@ bool GameState::existsLine(int move) {
   return resu;
 };
 
+bool GameState::dotNeeded(int dot_y, int dot_x) {
+  bool resu;
+  resu = 
+    ((dot_x == w / 2 ) && (dot_y == 1 + h  / 2 )) ||
+    vert[(dot_y-1)*(w+1) + dot_x] ||
+    diag[(dot_y-1)*(w+2) + dot_x+1] ||
+    hor[(dot_y-1)*(w+2) + dot_x+1] ||
+    adiag[(dot_y)*(w+2) + dot_x+1] ||
+    vert[dot_y*(w+1) + dot_x] ||
+    diag[dot_y*(w+2) + dot_x] ||
+    hor[(dot_y-1)*(w+2) + dot_x] ||
+    adiag[(dot_y-1)*(w+2) + dot_x];
+  return resu;
+};
+
+bool GameState::withoutExit() {
+  bool resu;
+  resu = vert[(ball_y-1)*(w+1) + ball_x] &&
+         diag[(ball_y-1)*(w+2) + ball_x+1] && 
+         hor[(ball_y-1)*(w+2) + ball_x+1] && 
+         adiag[(ball_y)*(w+2) + ball_x+1] && 
+         vert[ball_y*(w+1) + ball_x] && 
+         diag[ball_y*(w+2) + ball_x] && 
+         hor[(ball_y-1)*(w+2) + ball_x] && 
+         adiag[(ball_y-1)*(w+2) + ball_x];
+  return resu;
+};
+
+bool GameState::goalDot(bool isMin) {
+  if (isMin) {
+    return (ball_y == 0) && ((ball_x == w/2 - 1) || 
+                               (ball_x == w/2) || (ball_x == w/2 + 1) );
+  } else {
+    return (ball_y == h+2) && ((ball_x == w/2 - 1) || 
+                               (ball_x == w/2) || (ball_x == w/2 + 1) );
+  };
+};
+
+bool GameState::isLosingMove(int move) {
+  applyStickAndDot(move);
+  bool resu = withoutExit();
+  deapplyStickAndDot(move);
+  return resu;
+};
+
+bool GameState::isWinningMove(bool isMin, int move) {
+  applyStickAndDot(move);
+  bool resu = goalDot(isMin);
+  deapplyStickAndDot(move);
+  return resu;
+};
+
 bool GameState::existsDot(int move) {
   bool resu;
   switch (move)
@@ -152,14 +204,21 @@ bool GameState::existsDot(int move) {
 };
 
 
-option GameState::isPossible(int move) { 
+option GameState::isPossible(int move, bool isMin) { 
   if (existsLine(move)) 
     {return no;}
   else {
-    if (existsDot(move))
-      {return nonfinal;}
-    else 
-      {return yes;};
+    if (isLosingMove(move)) {
+      return loss;
+    } else if (isWinningMove(not(isMin), move)) {
+      return loss;
+    } else if (isWinningMove(isMin, move)) {
+      return win;
+    } else if (existsDot(move)) {
+      return nonfinal;
+    } else {
+      return yes;
+    };
   };
 };
 
@@ -210,6 +269,56 @@ void GameState::applyStickAndDot(int move) {
       dots[(ball_y-1)*(w+1) + ball_x-1] = true;
       ball_y -= 1; 
       ball_x -= 1; 
+    break;
+  };
+};
+
+void GameState::deapplyStickAndDot(int move) {
+  switch (move)
+  {
+    case 0:
+      ball_y += 1; 
+      vert[(ball_y-1)*(w+1) + ball_x] = false;
+      dots[(ball_y-1)*(w+1) + ball_x] = dotNeeded(ball_y - 1, ball_x);
+    break;
+    case 1:
+      ball_y += 1; 
+      ball_x -= 1; 
+      diag[(ball_y-1)*(w+2) + ball_x+1] = false;
+      dots[(ball_y-1)*(w+1) + ball_x + 1] = dotNeeded(ball_y-1, ball_x + 1);
+    break;
+    case 2:
+      ball_x -= 1; 
+      hor[(ball_y-1)*(w+2) + ball_x+1] = false;
+      dots[(ball_y)*(w+1) + ball_x + 1] = dotNeeded(ball_y, ball_x + 1);
+    break;
+    case 3:
+      ball_y -= 1; 
+      ball_x -= 1; 
+      adiag[(ball_y)*(w+2) + ball_x+1] = false;
+      dots[(ball_y+1)*(w+1) + ball_x + 1] = dotNeeded(ball_y + 1, ball_x + 1);
+    break;
+    case 4:
+      ball_y -= 1; 
+      vert[ball_y*(w+1) + ball_x] = false;
+      dots[(ball_y+1)*(w+1) + ball_x] = dotNeeded(ball_y + 1, ball_x);
+    break;
+    case 5:
+      ball_y -= 1; 
+      ball_x += 1; 
+      diag[ball_y*(w+2) + ball_x] = false;
+      dots[(ball_y+1)*(w+1) + ball_x-1] = dotNeeded(ball_y + 1, ball_x - 1);
+    break;
+    case 6:
+      ball_x += 1; 
+      hor[(ball_y-1)*(w+2) + ball_x] = false;
+      dots[(ball_y)*(w+1) + ball_x-1] = dotNeeded(ball_y, ball_x-1);
+    break;
+    case 7:
+      ball_y += 1; 
+      ball_x += 1; 
+      adiag[(ball_y-1)*(w+2) + ball_x] = false;
+      dots[(ball_y-1)*(w+1) + ball_x-1] = dotNeeded(ball_y-1, ball_x-1);
     break;
   };
 };
