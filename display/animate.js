@@ -2,12 +2,10 @@ $(function() {
   var ctx = $('#canvas')[0].getContext("2d");
 
   function parseArray(A, from, to) {
-
     target = [];
     for (var i=from; i <= to ; i++) {
       target.push(A[i].split(" "));
     };
-
     for (var i=0; i<target.length; i++) {
       for (var j=0; j<target[i].length; j++) {
 	if (target[i][j] != "") {
@@ -23,11 +21,14 @@ $(function() {
   function parse(data) {
     scale = 30;
     A = data.split("\n");
-    kropki = parseArray(A, 5,17);
-    vertical = parseArray(A, 19, 30);
-    horizontal = parseArray(A, 32, 42);
-    diags = parseArray(A, 44, 55);
-    adiags = parseArray(A, 57, 68);
+    ht = A[0].split(" ");
+    h = parseInt(ht[0]);
+    w = parseInt(ht[1]);
+    kropki = parseArray(A, 6, h+8); // h+3
+    vertical = parseArray(A, h+10, 2*h+11 ); // h+2
+    horizontal = parseArray(A, 2*h+13, 3*h+13 ); // h+1
+    diags = parseArray(A, 3*h+15, 4*h+16); // h+2
+    adiags = parseArray(A, 4*h+18, 5*h+19); // h+2
     current_dot = {};
     
     // create dots for drawing

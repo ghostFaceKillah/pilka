@@ -1,5 +1,5 @@
-runme: main.cpp state.cpp state.h
-	g++ -o runme main.cpp state.cpp
+runme: main.cpp GameState.cpp GameState.h
+	g++ -o runme main.cpp GameState.cpp
 	./runme
 clean:
-	rm *.o *.state
+	rm *.o *.GameState
