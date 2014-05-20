@@ -1,27 +1,16 @@
-#include<iostream>
-#include<fstream>
-using namespace std;
+#include <iostream>
+#include <vector>
 
-enum option {
-  yes = 0,
-  nonfinal = 1,
-  no = 2
+class GameState {
+  private:
+    int ball_x, ball_y;
+    int h, w;
+    bool *dots; // h+2, w+1
+    bool *vert; // h+2, w+1
+    bool *hor;  // h  , w+2    
+    bool *diag; // h+2, w+2
+    bool *adiag;// h+2, w+2
+  public:
+    GameState(int, int);
+    void show();
 };
-
-struct state {
-  int current_x, current_y;
-  bool kropki[13][9];
-  bool vertical[12][9];
-  bool horizontal[11][10];
-  bool diags [12][10];
-  bool adiags [12][10];
-  void init();
-};
-
-void write(state);
-void writeToFile(state, string);
-state loadFromFile(string);
-bool existsLine(int move, state g_st);
-bool existsDot(int move, state g_st);
-option isPossible(int move, state g_s);
-state applyStickAndDot(int move, state g_st);
