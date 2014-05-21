@@ -75,7 +75,7 @@ int AIPlayer::decide(GameState &game) {
     } else {
       moves[i] = 2*game.h*game.h;
     };
-    std::cout << "ai considered "<< i << std::endl;
+    // std::cout << "ai considered "<< i << std::endl;
   };
   int min_v = 3*game.h*game.h;
   int min = -1;

@@ -15,11 +15,12 @@ int main() {
 
   while (t) {
     if (t % 2 == 0) {
-      decision = ai.decide(game);
-    } else {
       decision = me.decide(game);
+    } else {
+      decision = ai.decide(game);
+      cout << decision << endl;
     };
-    if (game.isPossible(decision, (t % 2 == 1)) != nonfinal) {
+    if (game.isPossible(decision, (t % 2 == 0)) != nonfinal) {
       t++;
     } else {
       cout << "someone gets one more move" << endl;
